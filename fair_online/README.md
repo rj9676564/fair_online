@@ -14,7 +14,7 @@ http://127.0.0.1:8082/service/
 
 ```bash
 cd fair_online_service
-FLUTTER_VERSION="3.41.8" fvm dart run grinder serve
+FLUTTER_VERSION="3.41.7" fvm dart run grinder serve
 ```
 
 ```bash

@@ -154,7 +154,7 @@ class Sdk {
       path.join(Directory.current.path, 'flutter-sdks');
 }
 
-const versions = ['2.5.0', '3.0.0', '3.3.0', '3.41.8'];
+const versions = ['2.5.0', '3.0.0', '3.3.0', '3.41.7'];
 
 class DownloadingSdkManager {
   final String version;

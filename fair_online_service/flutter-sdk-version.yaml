@@ -15,6 +15,6 @@ flutter_sdk:
   3.3.0:
     flutter_version: 3.3.0
     dart_language_version: 2.18.0
-  3.41.8:
-    flutter_version: 3.41.8
+  3.41.7:
+    flutter_version: 3.41.7
     dart_language_version: 3.9.0
