@@ -7,8 +7,11 @@ RUN dart pub get
 
 COPY . .
 
-RUN mkdir -p .fvm \
-    && ln -sf "$(dirname "$(dirname "$(which flutter)")")" .fvm/flutter_sdk \
+RUN flutter_sdk_path="$(dirname "$(dirname "$(readlink -f "$(command -v flutter)")")")" \
+    && mkdir -p .fvm \
+    && ln -sfn "$flutter_sdk_path" .fvm/flutter_sdk \
+    && test -f .fvm/flutter_sdk/version \
+    && test -x .fvm/flutter_sdk/bin/flutter \
     && flutter config --enable-web \
     && flutter precache --web --no-android --no-ios --no-linux --no-windows --no-macos --no-fuchsia
 
