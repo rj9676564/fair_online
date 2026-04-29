@@ -3,6 +3,20 @@ set -eu
 
 flutter_bin="$(command -v flutter)"
 dart_bin="$(command -v dart)"
+requested_version=""
+
+expect_version_value="false"
+for arg in "$@"; do
+  if [ "$expect_version_value" = "true" ]; then
+    requested_version="$arg"
+    expect_version_value="false"
+    continue
+  fi
+
+  if [ "$arg" = "--version" ]; then
+    expect_version_value="true"
+  fi
+done
 
 resolve_flutter_sdk_path() {
   if [ -n "${FAIR_ONLINE_FLUTTER_SDK_PATH:-}" ]; then
@@ -47,7 +61,12 @@ resolve_flutter_sdk_path() {
 export FAIR_ONLINE_FLUTTER_SDK_PATH="$(resolve_flutter_sdk_path)"
 mkdir -p .fvm
 ln -sfn "$FAIR_ONLINE_FLUTTER_SDK_PATH" .fvm/flutter_sdk
-test -f .fvm/flutter_sdk/version
 test -x .fvm/flutter_sdk/bin/flutter
+test -f .fvm/flutter_sdk/bin/cache/dart-sdk/version
+
+if [ -n "$requested_version" ]; then
+  mkdir -p flutter-sdks
+  ln -sfn "$FAIR_ONLINE_FLUTTER_SDK_PATH" "flutter-sdks/$requested_version"
+fi
 
 exec dart run bin/server.dart "$@"
