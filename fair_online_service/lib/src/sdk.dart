@@ -113,6 +113,7 @@ class Sdk {
 
     addCandidate(Platform.environment['FAIR_ONLINE_FLUTTER_SDK_PATH']);
     addCandidate(Platform.environment['FLUTTER_ROOT']);
+    addCandidate('/sdks/flutter');
 
     return candidates.toList(growable: false);
   }

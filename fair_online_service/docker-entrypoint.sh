@@ -5,6 +5,11 @@ flutter_bin="$(command -v flutter)"
 dart_bin="$(command -v dart)"
 
 resolve_flutter_sdk_path() {
+  if [ -x /sdks/flutter/bin/flutter ] && [ -f /sdks/flutter/version ]; then
+    printf '%s\n' "/sdks/flutter"
+    return
+  fi
+
   if [ -n "${FAIR_ONLINE_FLUTTER_SDK_PATH:-}" ]; then
     printf '%s\n' "$FAIR_ONLINE_FLUTTER_SDK_PATH"
     return
