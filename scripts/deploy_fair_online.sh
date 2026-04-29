@@ -8,7 +8,7 @@ if [ ! -f .env ] && [ -f .env.example ]; then
   cp .env.example .env
 fi
 
-docker compose up -d --build
+docker compose up -d
 
 echo "Fair Online 已启动"
 echo "访问地址: http://localhost:${FAIR_ONLINE_PORT:-8080}"

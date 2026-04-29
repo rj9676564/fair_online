@@ -1,7 +1,6 @@
 services:
   fair-online-web:
-    build:
-      context: ./fair_online
+    image: ${FAIR_ONLINE_WEB_IMAGE:-ghcr.io/rj9676564/fair-online-web}:${FAIR_ONLINE_IMAGE_TAG:-latest}
     depends_on:
       - fair-online-service
     environment:
@@ -14,8 +13,7 @@ services:
     restart: unless-stopped
 
   fair-online-service:
-    build:
-      context: ./fair_online_service
+    image: ${FAIR_ONLINE_SERVICE_IMAGE:-ghcr.io/rj9676564/fair-online-service}:${FAIR_ONLINE_IMAGE_TAG:-latest}
     environment:
       FAIR_ONLINE_RESOURCE_BASE_URL: ${FAIR_ONLINE_RESOURCE_BASE_URL:-/resource}
     expose:

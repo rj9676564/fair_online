@@ -37,12 +37,17 @@ http://localhost:8080
 
 ## Docker Compose
 
-当前 `docker-compose.yml` 会启动两个服务：
+当前 `docker-compose.yml` 会直接拉取 GHCR 镜像并启动两个服务：
 
 - `fair-online-web`
   前端站点，负责静态资源和反向代理
 - `fair-online-service`
   后端 API、资源服务和编译预览能力
+
+默认镜像：
+
+- `ghcr.io/rj9676564/fair-online-web:latest`
+- `ghcr.io/rj9676564/fair-online-service:latest`
 
 默认代理关系：
 
@@ -59,6 +64,9 @@ http://localhost:8080
 FAIR_ONLINE_PORT=8080
 FAIR_ONLINE_API_BASE_URL=/service/
 FAIR_ONLINE_RESOURCE_BASE_URL=/resource
+FAIR_ONLINE_IMAGE_TAG=latest
+FAIR_ONLINE_WEB_IMAGE=ghcr.io/rj9676564/fair-online-web
+FAIR_ONLINE_SERVICE_IMAGE=ghcr.io/rj9676564/fair-online-service
 ```
 
 常见调整：
@@ -66,6 +74,8 @@ FAIR_ONLINE_RESOURCE_BASE_URL=/resource
 - 修改外部访问端口：调整 `FAIR_ONLINE_PORT`
 - 修改 API 前缀：调整 `FAIR_ONLINE_API_BASE_URL`
 - 修改资源前缀：调整 `FAIR_ONLINE_RESOURCE_BASE_URL`
+- 固定部署某个镜像版本：调整 `FAIR_ONLINE_IMAGE_TAG`
+- 切换到其他仓库镜像：调整 `FAIR_ONLINE_WEB_IMAGE` / `FAIR_ONLINE_SERVICE_IMAGE`
 
 ## GitHub Actions 镜像发布
 
