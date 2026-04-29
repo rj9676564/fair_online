@@ -5,9 +5,9 @@ services:
       - fair-online-service
     environment:
       FAIR_ONLINE_API_BASE_URL: ${FAIR_ONLINE_API_BASE_URL:-/service/}
-      FAIR_ONLINE_SERVICE_PROXY_PASS: http://fair-online-service:8082/
-      FAIR_ONLINE_RESOURCE_PROXY_PASS: http://fair-online-service:8002/
-      FAIR_ONLINE_BACKEND_WEB_PROXY_PASS: http://fair-online-service:8001/
+      FAIR_ONLINE_SERVICE_PROXY_PASS: http://fair-online-service:8082
+      FAIR_ONLINE_RESOURCE_PROXY_PASS: http://fair-online-service:8002
+      FAIR_ONLINE_BACKEND_WEB_PROXY_PASS: http://fair-online-service:8001
     ports:
       - "${FAIR_ONLINE_PORT:-8080}:80"
     restart: unless-stopped
