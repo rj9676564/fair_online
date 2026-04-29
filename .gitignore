@@ -1,0 +1,7 @@
+.DS_Store
+.env
+**/.dart_tool/
+**/.fvm/flutter_sdk
+**/build/
+**/ios/Flutter/ephemeral/
+**/media_cache/
