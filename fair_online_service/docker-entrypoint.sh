@@ -5,11 +5,6 @@ flutter_bin="$(command -v flutter)"
 dart_bin="$(command -v dart)"
 
 resolve_flutter_sdk_path() {
-  if [ -x /sdks/flutter/bin/flutter ] && [ -f /sdks/flutter/version ]; then
-    printf '%s\n' "/sdks/flutter"
-    return
-  fi
-
   if [ -n "${FAIR_ONLINE_FLUTTER_SDK_PATH:-}" ]; then
     printf '%s\n' "$FAIR_ONLINE_FLUTTER_SDK_PATH"
     return
@@ -20,10 +15,21 @@ resolve_flutter_sdk_path() {
     return
   fi
 
+  if command -v realpath >/dev/null 2>&1; then
+    flutter_bin="$(realpath "$flutter_bin")"
+    dart_bin="$(realpath "$dart_bin")"
+  fi
+
   dart_sdk_path="$(dirname "$(dirname "$dart_bin")")"
   dart_candidate="$(dirname "$(dirname "$(dirname "$dart_sdk_path")")")"
-  if [ -x "$dart_candidate/bin/flutter" ] && [ -f "$dart_candidate/version" ]; then
+  if [ -x "$dart_candidate/bin/flutter" ]; then
     printf '%s\n' "$dart_candidate"
+    return
+  fi
+
+  flutter_candidate="$(dirname "$(dirname "$flutter_bin")")"
+  if [ -x "$flutter_candidate/bin/flutter" ]; then
+    printf '%s\n' "$flutter_candidate"
     return
   fi
 
