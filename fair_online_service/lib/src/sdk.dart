@@ -71,6 +71,13 @@ class Sdk {
       return projectSdkPath;
     }
 
+    for (final environmentSdkPath in _environmentSdkPaths(version)) {
+      if (_isCompleteSdk(environmentSdkPath) &&
+          _matchesExpectedVersion(environmentSdkPath, version)) {
+        return environmentSdkPath;
+      }
+    }
+
     final fvmSdkPath = path.join(Directory.current.path, '.fvm', 'flutter_sdk');
     if (_isCompleteSdk(fvmSdkPath) &&
         _matchesExpectedVersion(fvmSdkPath, version)) {
@@ -91,6 +98,23 @@ class Sdk {
       '`dart run grinder setup-flutter-sdk` or reinstall the local FVM SDK.',
       path.join(projectSdkPath, 'version'),
     );
+  }
+
+  static List<String> _environmentSdkPaths(String version) {
+    final candidates = <String>{};
+
+    void addCandidate(String? sdkPath) {
+      if (sdkPath == null || sdkPath.isEmpty) {
+        return;
+      }
+      candidates.add(sdkPath);
+      candidates.add(path.join(sdkPath, version));
+    }
+
+    addCandidate(Platform.environment['FAIR_ONLINE_FLUTTER_SDK_PATH']);
+    addCandidate(Platform.environment['FLUTTER_ROOT']);
+
+    return candidates.toList(growable: false);
   }
 
   static List<String> _globalFvmSdkPaths(String version) {
