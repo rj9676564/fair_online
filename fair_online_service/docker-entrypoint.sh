@@ -2,6 +2,7 @@
 set -eu
 
 flutter_bin="$(command -v flutter)"
+dart_bin="$(command -v dart)"
 
 resolve_flutter_sdk_path() {
   if [ -n "${FAIR_ONLINE_FLUTTER_SDK_PATH:-}" ]; then
@@ -11,6 +12,13 @@ resolve_flutter_sdk_path() {
 
   if [ -n "${FLUTTER_ROOT:-}" ]; then
     printf '%s\n' "$FLUTTER_ROOT"
+    return
+  fi
+
+  dart_sdk_path="$(dirname "$(dirname "$dart_bin")")"
+  dart_candidate="$(dirname "$(dirname "$(dirname "$dart_sdk_path")")")"
+  if [ -x "$dart_candidate/bin/flutter" ] && [ -f "$dart_candidate/version" ]; then
+    printf '%s\n' "$dart_candidate"
     return
   fi
 
@@ -26,5 +34,9 @@ resolve_flutter_sdk_path() {
 }
 
 export FAIR_ONLINE_FLUTTER_SDK_PATH="$(resolve_flutter_sdk_path)"
+mkdir -p .fvm
+ln -sfn "$FAIR_ONLINE_FLUTTER_SDK_PATH" .fvm/flutter_sdk
+test -f .fvm/flutter_sdk/version
+test -x .fvm/flutter_sdk/bin/flutter
 
 exec dart run bin/server.dart "$@"
